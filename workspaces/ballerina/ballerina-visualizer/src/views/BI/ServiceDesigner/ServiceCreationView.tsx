@@ -331,8 +331,9 @@ export function ServiceCreationView(props: ServiceCreationViewProps) {
      * @param data The form data containing all field values
      */
     const processPropertyRecursively = (property: PropertyModel, data: FormValues, propertyKey?: string): void => {
-        // If this property is a CHOICE field, process it
-        if (getPrimaryInputType(property.types)?.fieldType === "CHOICE" && property.choices) {
+        // If this property is a CHOICE or INLINE_CHOICE field, process it
+        const fieldType = getPrimaryInputType(property.types)?.fieldType;
+        if ((fieldType === "CHOICE" || fieldType === "INLINE_CHOICE") && property.choices) {
             // Get the selected index from form data if available, otherwise use property.value
             const selectedIndex = propertyKey && data[propertyKey] !== undefined
                 ? Number(data[propertyKey])
@@ -407,7 +408,8 @@ export function ServiceCreationView(props: ServiceCreationViewProps) {
         // Check if the field exists at this level
         if (properties[fieldKey]) {
             const property = properties[fieldKey];
-            if (getPrimaryInputType(property.types)?.fieldType === "CHOICE" && property.choices) {
+            const ft = getPrimaryInputType(property.types)?.fieldType;
+            if ((ft === "CHOICE" || ft === "INLINE_CHOICE") && property.choices) {
                 property.value = value as string;
                 property.choices.forEach((choice, index) => {
                     choice.enabled = (Number(value) === index);
@@ -449,7 +451,7 @@ export function ServiceCreationView(props: ServiceCreationViewProps) {
     const handleOnSubmit = async (data: FormValues, formImports: FormImports) => {
         setIsSaving(true);
         formFields.forEach(val => {
-            if (val.type === "CHOICE") {
+            if (val.type === "CHOICE" || val.type === "INLINE_CHOICE") {
                 val.choices.forEach((choice, index) => {
                     choice.enabled = false;
                     if (data[val.key] === index) {

@@ -145,6 +145,7 @@ export type FormFieldInputType = "TEXT" |
     "TEXT_SET" |
     "FLAG" |
     "CHOICE" |
+    "INLINE_CHOICE" |
     "LV_EXPRESSION" |
     "RAW_TEMPLATE" |
     "ai:Prompt" |

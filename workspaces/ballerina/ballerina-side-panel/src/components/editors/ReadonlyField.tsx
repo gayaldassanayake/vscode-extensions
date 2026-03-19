@@ -28,7 +28,6 @@ interface ReadonlyFieldProps {
 
 const Container = styled.div`
     width: 100%;
-    cursor: not-allowed;
 `;
 
 const Label = styled.div`
@@ -60,6 +59,7 @@ const InputContainer = styled.div`
     min-width: var(--input-min-width);
     padding: 0 calc(var(--design-unit) * 2px + 1px);
     margin-top: 10px;
+    opacity: 1;
 `;
 
 const Value = styled.span`
@@ -69,7 +69,7 @@ const Value = styled.span`
 const StyledButton = styled(Button)`
     padding: 0;
     margin-right: -6px;
-    cursor: not-allowed;
+    cursor: default;
 
     :host([disabled]) {
         opacity: 1 !important;
@@ -80,7 +80,7 @@ const StyledButton = styled(Button)`
     }
 
     & .codicon {
-        opacity: 1 !important;
+        opacity: 0.7 !important;
         color: var(--vscode-input-foreground) !important;
     }
 `;

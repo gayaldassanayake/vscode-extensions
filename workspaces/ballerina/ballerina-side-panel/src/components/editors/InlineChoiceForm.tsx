@@ -77,7 +77,15 @@ export function InlineChoiceForm(props: InlineChoiceFormProps) {
     const { setValue, clearErrors } = form;
 
     // selectedOption is 1-indexed (same convention as ChoiceForm)
-    const [selectedOption, setSelectedOption] = useState<number>(1);
+    // Initialize from field.value (0-indexed from backend) or find first enabled choice
+    const getInitialSelection = (): number => {
+        if (field.value !== undefined && field.value !== "") {
+            return Number(field.value) + 1;
+        }
+        const enabledIdx = field.choices.findIndex(choice => choice.enabled);
+        return enabledIdx !== -1 ? enabledIdx + 1 : 1;
+    };
+    const [selectedOption, setSelectedOption] = useState<number>(getInitialSelection);
     // Track the inline widget value for each choice (keyed by choice index)
     const [inlineValues, setInlineValues] = useState<{ [index: number]: string }>({});
     // Dynamic fields rendered below the radio group
@@ -141,8 +149,11 @@ export function InlineChoiceForm(props: InlineChoiceFormProps) {
         setDynamicFields(fields);
 
         // Register form values for all properties
-        entries.forEach(([propKey, propValue]) => {
-            if (propValue.value !== undefined) {
+        // For the first (inline) property, use the tracked inline value to avoid overwriting user edits
+        entries.forEach(([propKey, propValue], idx) => {
+            if (idx === 0 && inlineValues[realIndex] !== undefined) {
+                setValue(propKey, inlineValues[realIndex]);
+            } else if (propValue.value !== undefined) {
                 setValue(propKey, propValue.value);
             }
         });

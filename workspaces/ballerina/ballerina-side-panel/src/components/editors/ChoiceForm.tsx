@@ -26,6 +26,7 @@ import { useFormContext } from "../../context";
 import styled from "@emotion/styled";
 import { getPrimaryInputType, PropertyModel, RecordTypeField } from "@wso2/ballerina-core";
 import { FieldFactory } from "./FieldFactory";
+import { FormSectionGroup } from "./FormSectionGroup";
 
 interface ChoiceFormProps {
     field: FormField;
@@ -152,16 +153,18 @@ export function ChoiceForm(props: ChoiceFormProps) {
                 if (fields.length === 0) return null;
 
                 return (
-                    <FormSection>
-                        {fields.map((dfield, index) => (
-                            <FieldFactory
-                                key={dfield.key}
-                                field={dfield}
-                                autoFocus={index === 0}
-                                recordTypeFields={recordTypeFields}
-                            />
-                        ))}
-                    </FormSection>
+                    <FormSectionGroup title={field.label}>
+                        <FormSection>
+                            {fields.map((dfield, index) => (
+                                <FieldFactory
+                                    key={dfield.key}
+                                    field={dfield}
+                                    autoFocus={index === 0}
+                                    recordTypeFields={recordTypeFields}
+                                />
+                            ))}
+                        </FormSection>
+                    </FormSectionGroup>
                 );
             })()}
 

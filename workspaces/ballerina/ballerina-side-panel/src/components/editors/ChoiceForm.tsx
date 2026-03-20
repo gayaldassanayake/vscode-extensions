@@ -116,7 +116,32 @@ export function ChoiceForm(props: ChoiceFormProps) {
                 items,
                 choices: expression.choices,
                 placeholder: expression.placeholder,
-                defaultValue: expression.defaultValue as string
+                defaultValue: expression.defaultValue as string,
+                onValueChange: getPrimaryInputType(expression.types)?.fieldType === "SINGLE_SELECT" && expression.properties
+                    ? (selectedValue: string | boolean) => {
+                        const selectedConfig = expression.properties?.[selectedValue as string];
+                        if (selectedConfig?.properties) {
+                            // Update react-hook-form state for form submission
+                            Object.entries(selectedConfig.properties).forEach(([propKey, propValue]) => {
+                                const prop = propValue as PropertyModel;
+                                if (prop.value !== undefined) {
+                                    setValue(propKey, prop.value);
+                                }
+                            });
+                            // Update dynamicFields state to re-render ReadonlyField components
+                            setDynamicFields(prev => prev.map(f => {
+                                const newProp = selectedConfig.properties?.[f.key] as PropertyModel | undefined;
+                                if (newProp) {
+                                    const newValue = (newProp as any).values && (newProp as any).values.length > 0
+                                        ? (newProp as any).values
+                                        : newProp.value;
+                                    return { ...f, value: newValue !== undefined ? newValue : f.value };
+                                }
+                                return f;
+                            }));
+                        }
+                    }
+                    : undefined
             }
             formFields.push(formField);
         }

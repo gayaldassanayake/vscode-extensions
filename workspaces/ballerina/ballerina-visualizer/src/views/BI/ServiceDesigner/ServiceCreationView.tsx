@@ -149,7 +149,9 @@ function mapPropertiesToFormFields(properties: { [key: string]: PropertyModel; }
             placeholder: property.placeholder,
             addNewButton: property.addNewButton,
             lineRange: property?.codedata?.lineRange,
-            advanceProps: mapPropertiesToFormFields(property.properties)
+            advanceProps: mapPropertiesToFormFields(property.properties),
+            groupName: property?.metadata?.groupName,
+            groupNo: property?.metadata?.groupNo,
         } as FormField;
     });
 }

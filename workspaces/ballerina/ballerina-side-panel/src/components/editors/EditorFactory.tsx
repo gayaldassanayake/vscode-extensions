@@ -30,7 +30,7 @@ import { DropdownEditor } from "./DropdownEditor";
 import { FileSelect } from "./FileSelect";
 import { CheckBoxEditor } from "./CheckBoxEditor";
 import { ChoiceForm } from "./ChoiceForm";
-import { InlineChoiceForm } from "./InlineChoiceForm";
+
 import { FormMapEditor } from "./FormMapEditor";
 import { TextAreaEditor } from "./TextAreaEditor";
 import { DropdownChoiceForm } from "./DropdownChoiceForm";
@@ -125,8 +125,6 @@ export const EditorFactory = (props: FormFieldEditorProps) => {
         return <ChoiceForm field={field} recordTypeFields={recordTypeFields} />;
     } else if (fieldInputType.fieldType === "DROPDOWN_CHOICE") {
         return <DropdownChoiceForm field={field} />;
-    } else if (fieldInputType.fieldType === "INLINE_CHOICE") {
-        return <InlineChoiceForm field={field} recordTypeFields={recordTypeFields} />;
     } else if (fieldInputType.fieldType === "TEXTAREA" || fieldInputType.fieldType === "STRING" || fieldInputType.fieldType === "DOC_TEXT") {
         return <TextAreaEditor field={field} inputMode={InputMode.SIMPLE_TEXT} />;
     } else if (fieldInputType.fieldType === "FLAG" && !showWithExpressionEditor) {

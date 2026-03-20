@@ -232,6 +232,8 @@ function convertConfig(listener: ListenerModel): FormField[] {
             items: expression.items,
             placeholder: expression.placeholder,
             lineRange: expression?.codedata?.lineRange,
+            groupName: expression?.metadata?.groupName,
+            groupNo: expression?.metadata?.groupNo,
         }
         formFields.push(formField);
     }

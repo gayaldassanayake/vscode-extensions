@@ -149,6 +149,8 @@ interface MetaData {
     label: string;
     description: string;
     notice?: string;
+    groupNo?: number;
+    groupName?: string;
 }
 
 interface CodeData {

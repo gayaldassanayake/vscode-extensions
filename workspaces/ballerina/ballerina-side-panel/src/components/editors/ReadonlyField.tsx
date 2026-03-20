@@ -146,6 +146,41 @@ function getDisplayInfo(field: FormField): { displayValue: string; isExpression:
 export function ReadonlyField(props: ReadonlyFieldProps) {
     const { field } = props;
     const { displayValue, isExpression } = getDisplayInfo(field);
+    const values = Array.isArray(field.value) ? field.value as string[] : null;
+
+    const renderInputContainer = (val: string, key?: number) => (
+        <InputContainer key={key}>
+            {isExpression && (
+                <ExpressionRibbon>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        style={{ color: ThemeColors.ON_PRIMARY }}>
+                        <path
+                            fill="currentColor"
+                            d="M12.42 5.29c-1.1-.1-2.07.71-2.17 1.82L10 10h2.82v2h-3l-.44 5.07A4.001 4.001 0 0 1 2 18.83l1.5-1.5c.33 1.05 1.46 1.64 2.5 1.3c.78-.24 1.33-.93 1.4-1.74L7.82 12h-3v-2H8l.27-3.07a4.01 4.01 0 0 1 4.33-3.65c1.26.11 2.4.81 3.06 1.89l-1.5 1.5c-.25-.77-.93-1.31-1.74-1.38M22 13.65l-1.41-1.41l-2.83 2.83l-2.83-2.83l-1.43 1.41l2.85 2.85l-2.85 2.81l1.43 1.41l2.83-2.83l2.83 2.83L22 19.31l-2.83-2.81z" />
+                    </svg>
+                </ExpressionRibbon>
+            )}
+            <Value>
+                {isExpression ? (
+                    <ReadonlyChip>
+                        <ChipIcon className="fw-bi-variable" />
+                        {val}
+                    </ReadonlyChip>
+                ) : (
+                    val
+                )}
+            </Value>
+            <Tooltip content="Read only field">
+                <StyledButton appearance="icon" disabled>
+                    <Icon name="bi-lock" sx={{ fontSize: 16, width: 16, height: 16 }} />
+                </StyledButton>
+            </Tooltip>
+        </InputContainer>
+    );
 
     return (
         <Container>
@@ -156,37 +191,10 @@ export function ReadonlyField(props: ReadonlyFieldProps) {
                 {!field.optional && <RequiredFormInput />}
             </Label>
             {field.documentation && <Description>{field.documentation}</Description>}
-            <InputContainer>
-                {isExpression && (
-                    <ExpressionRibbon>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            style={{ color: ThemeColors.ON_PRIMARY }}>
-                            <path
-                                fill="currentColor"
-                                d="M12.42 5.29c-1.1-.1-2.07.71-2.17 1.82L10 10h2.82v2h-3l-.44 5.07A4.001 4.001 0 0 1 2 18.83l1.5-1.5c.33 1.05 1.46 1.64 2.5 1.3c.78-.24 1.33-.93 1.4-1.74L7.82 12h-3v-2H8l.27-3.07a4.01 4.01 0 0 1 4.33-3.65c1.26.11 2.4.81 3.06 1.89l-1.5 1.5c-.25-.77-.93-1.31-1.74-1.38M22 13.65l-1.41-1.41l-2.83 2.83l-2.83-2.83l-1.43 1.41l2.85 2.85l-2.85 2.81l1.43 1.41l2.83-2.83l2.83 2.83L22 19.31l-2.83-2.81z" />
-                        </svg>
-                    </ExpressionRibbon>
-                )}
-                <Value>
-                    {isExpression ? (
-                        <ReadonlyChip>
-                            <ChipIcon className="fw-bi-variable" />
-                            {displayValue}
-                        </ReadonlyChip>
-                    ) : (
-                        displayValue
-                    )}
-                </Value>
-                <Tooltip content="Read only field">
-                    <StyledButton appearance="icon" disabled>
-                        <Icon name="bi-lock" sx={{ fontSize: 16, width: 16, height: 16}} />
-                    </StyledButton>
-                </Tooltip>
-            </InputContainer>
+            {values
+                ? values.map((item, idx) => renderInputContainer(item, idx))
+                : renderInputContainer(displayValue)
+            }
         </Container>
     );
 }

@@ -78,16 +78,6 @@ export function DropdownEditor(props: DropdownEditorProps) {
             onChange={(e) => {
                 setValue(field.key, e.target.value);
                 field.onValueChange?.(e.target.value);
-                // When this dropdown has per-option nested configs (e.g. "Use existing listener"),
-                // update sibling form fields to reflect the selected option's values.
-                const selectedConfig = field.properties?.[e.target.value];
-                if (selectedConfig?.properties) {
-                    Object.entries(selectedConfig.properties).forEach(([propKey, propValue]) => {
-                        if ((propValue as any)?.value !== undefined) {
-                            setValue(propKey, (propValue as any).value);
-                        }
-                    });
-                }
             }}
             sx={{ width: "100%" }}
             containerSx={{ width: "100%" }}

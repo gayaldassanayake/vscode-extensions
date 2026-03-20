@@ -129,9 +129,10 @@ export function ChoiceForm(props: ChoiceFormProps) {
                         id: index.toString(),
                         value: index + 1,
                         content: choice.metadata.label,
-                        disabled: !choice.enabled && (!choice.properties || Object.keys(choice.properties).length === 0)
+                        disabled: field.editable === false || (!choice.enabled && (!choice.properties || Object.keys(choice.properties).length === 0))
                     }))}
                     onChange={(e) => {
+                        if (field.editable === false) return;
                         const checkedValue = Number(e.target.value);
                         const realValue = checkedValue - 1;
                         // Prevent selecting disabled choices (no properties and not enabled)

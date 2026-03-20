@@ -52,6 +52,7 @@ import { InputMode } from "./MultiModeExpressionEditor/ChipExpressionEditor/type
 import { ArgManagerEditor } from "../ParamManager/ArgManager";
 import { DependentTypeEditor } from "./DependentTypeEditor";
 import { FormSectionGroup } from "./FormSectionGroup";
+import { FieldFactory } from "./FieldFactory";
 
 export interface FormFieldEditorProps {
     field: FormField;

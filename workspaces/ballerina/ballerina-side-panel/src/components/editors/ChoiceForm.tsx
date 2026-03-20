@@ -104,7 +104,13 @@ export function ChoiceForm(props: ChoiceFormProps) {
                 editable: expression.editable,
                 enabled: expression?.enabled ?? true,
                 optional: expression.optional,
-                value: expression.value,
+                value: (getPrimaryInputType(expression.types)?.fieldType === "MULTIPLE_SELECT" ||
+                        getPrimaryInputType(expression.types)?.fieldType === "EXPRESSION_SET" ||
+                        getPrimaryInputType(expression.types)?.fieldType === "TEXT_SET")
+                    ? (expression.values && expression.values.length > 0
+                        ? expression.values
+                        : (expression.value ? [expression.value] : []))
+                    : expression.value,
                 advanced: expression.advanced,
                 diagnostics: [],
                 items,

@@ -87,6 +87,7 @@ const StyledButton = styled(Button)`
 
 export function ReadonlyField(props: ReadonlyFieldProps) {
     const { field } = props;
+    const values = Array.isArray(field.value) ? field.value as string[] : null;
 
     return (
         <Container>
@@ -97,14 +98,28 @@ export function ReadonlyField(props: ReadonlyFieldProps) {
                 {!field.optional && <RequiredFormInput />}
             </Label>
             {field.documentation && <Description>{field.documentation}</Description>}
-            <InputContainer>
-                <Value>{field.value}</Value>
-                <Tooltip content="Read only field">
-                    <StyledButton appearance="icon" disabled>
-                        <Icon name="bi-lock" sx={{ fontSize: 16, width: 16, height: 16}} />
-                    </StyledButton>
-                </Tooltip>
-            </InputContainer>
+            {values
+                ? values.map((item, idx) => (
+                    <InputContainer key={idx}>
+                        <Value>{item}</Value>
+                        <Tooltip content="Read only field">
+                            <StyledButton appearance="icon" disabled>
+                                <Icon name="bi-lock" sx={{ fontSize: 16, width: 16, height: 16 }} />
+                            </StyledButton>
+                        </Tooltip>
+                    </InputContainer>
+                ))
+                : (
+                    <InputContainer>
+                        <Value>{field.value as string}</Value>
+                        <Tooltip content="Read only field">
+                            <StyledButton appearance="icon" disabled>
+                                <Icon name="bi-lock" sx={{ fontSize: 16, width: 16, height: 16 }} />
+                            </StyledButton>
+                        </Tooltip>
+                    </InputContainer>
+                )
+            }
         </Container>
     );
 }

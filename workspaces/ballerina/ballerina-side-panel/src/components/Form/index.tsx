@@ -1017,7 +1017,6 @@ export const Form = forwardRef((props: FormProps) => {
             <S.CategoryRow bottomBorder={false}>
                 {(() => {
                     const fieldsToRender = formFields
-                        .sort((a, b) => b.groupNo - a.groupNo)
                         .filter((field) => field.type !== "VIEW");
 
                     const renderedComponents: React.ReactNode[] = [];

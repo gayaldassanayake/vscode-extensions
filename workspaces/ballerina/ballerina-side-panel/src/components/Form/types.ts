@@ -55,8 +55,6 @@ export type FormField = {
     dynamicFormFields?: { [key: string]: FormField[] }
     paramManagerProps?: ParamConfig;
     types: InputType[];
-    groupNo?: number;
-    groupName?: string;
     addNewButton?: boolean;
     addNewButtonLabel?: string;
     enabled: boolean;

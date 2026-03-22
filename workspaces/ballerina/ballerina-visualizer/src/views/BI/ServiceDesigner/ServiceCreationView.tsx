@@ -317,6 +317,11 @@ export function ServiceCreationView(props: ServiceCreationViewProps) {
                             }
                         });
                     }
+
+                    // Also recurse into nested properties (e.g., GROUP_SECTION children)
+                    if (property.properties) {
+                        collectRecordTypeFields(property.properties);
+                    }
                 });
             };
 

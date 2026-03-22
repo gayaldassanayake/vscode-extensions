@@ -117,9 +117,9 @@ export const EditorFactory = (props: FormFieldEditorProps) => {
         return <></>;
     } else if (fieldInputType.fieldType === "GROUP_SECTION") {
         return (
-            <FormSectionGroup title={field.label}>
+            <FormSectionGroup title={field.label} defaultExpanded={false}>
                 {field.advanceProps?.map((childField) => (
-                    <FieldFactory key={childField.key} field={childField} />
+                    <FieldFactory key={childField.key} field={childField} recordTypeFields={recordTypeFields} openRecordEditor={openRecordEditor} />
                 ))}
             </FormSectionGroup>
         );
@@ -132,7 +132,7 @@ export const EditorFactory = (props: FormFieldEditorProps) => {
     } else if (fieldInputType.fieldType === "HEADER_SET") {
         return <HeaderSetEditor field={field} />;
     } else if (fieldInputType.fieldType === "CHOICE") {
-        return <ChoiceForm field={field} recordTypeFields={recordTypeFields} />;
+        return <ChoiceForm field={field} recordTypeFields={recordTypeFields} openRecordEditor={openRecordEditor} />;
     } else if (fieldInputType.fieldType === "DROPDOWN_CHOICE") {
         return <DropdownChoiceForm field={field} />;
     } else if (fieldInputType.fieldType === "TEXTAREA" || fieldInputType.fieldType === "STRING" || fieldInputType.fieldType === "DOC_TEXT") {

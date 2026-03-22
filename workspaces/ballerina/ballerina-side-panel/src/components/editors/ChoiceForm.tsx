@@ -24,12 +24,13 @@ import { FormField } from "../Form/types";
 import { capitalize, getValueForDropdown } from "./utils";
 import { useFormContext } from "../../context";
 import styled from "@emotion/styled";
-import { getPrimaryInputType, PropertyModel, RecordTypeField } from "@wso2/ballerina-core";
+import { getPrimaryInputType, NodeProperties, PropertyModel, RecordTypeField } from "@wso2/ballerina-core";
 import { FieldFactory } from "./FieldFactory";
 
 interface ChoiceFormProps {
     field: FormField;
     recordTypeFields?: RecordTypeField[];
+    openRecordEditor?: (open: boolean, newType?: string | NodeProperties) => void;
 }
 
 const Form = styled.div`
@@ -56,7 +57,7 @@ const ButtonContainer = styled.div`
 `;
 
 export function ChoiceForm(props: ChoiceFormProps) {
-    const { field, recordTypeFields } = props;
+    const { field, recordTypeFields, openRecordEditor } = props;
     const { form } = useFormContext();
     const { setValue, clearErrors } = form;
 
